@@ -1,0 +1,14 @@
+{
+  "name": "bots-backup",
+  "version": "1.0.0",
+  "description": "Bots backup hack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Marcelo Jabali",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.83.0"
+  }
+}
