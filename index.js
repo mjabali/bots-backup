@@ -1,20 +1,27 @@
 const request = require('request');
 const fs = require('fs');
-const url = 'http://localhost:8080/management-api/v1/bots/';
+const url = 'http://127.0.0.1:8080/management-api/v1/bots/';
 
 request(url, function (error, response, body) {
-    console.log('error:', error); // Print the error if one occurred
+    if(error){
+        console.log('Error while running the server:\n', error); // Print the error if one occurred
+    }
     var botsList = JSON.parse(body);
     console.log("Count: " + botsList.count);
     var botItems = botsList.items;
     for(i in botItems){
-        console.log("Downloading... " + botItems[i].name + " with Bot ID: " + botItems[i].id);
         var options = {
             url: url + botItems[i].id,
             headers: {
                 'Content-Type':'application/zip'
             }
         }
-        request(options).pipe(fs.createWriteStream('bots/' + botItems[i].name + '.zip'));
-    }
+        download(options, botItems[i].name)
+        .then(console.log("Downloading... " + botItems[i].name + " with Bot ID: " + botItems[i].id));
+    }  
   });
+
+  async function download(options, botName){
+    request(options).pipe(fs.createWriteStream('bots/' + botName + '.zip'));
+
+  }
